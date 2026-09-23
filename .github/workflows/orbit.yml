@@ -28,9 +28,22 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           template: space
           theme: auto
+          role: Developer
           output_path: dist/github-cosmos.svg
           include_forks: false
           include_archived: false
-          max_repositories: 20
+          max_repositories: 30
+          exclude_repositories: |
+            TPA-TPIntegrador
+          external_repositories: |
+            SIGMA-LA/Front-End-SIGMA-LA
+            SIGMA-LA/Back-End-SIGMA-LA
+            upskill-team/Front-End-DSW
+            upskill-team/Back-End-DSW
+            carlex74/TP-FINAL-.NET
+            LucaTvl/Hyperparameters-Optimization
+            LucaTvl/CIFAR-Playground
+            NiconiKimg/AnyLogicWebToolkit
+            upskill-team/propuesta-DSW
           auto_commit: true
-          commit_message: "chore(orbit): update cosmic visualization [skip ci]"
+          commit_message: "chore(orbit): update visualization [skip ci]"
