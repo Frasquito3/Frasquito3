@@ -1,59 +1,665 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 320" width="100%" height="100%">
-  <defs>
-    <linearGradient id="cosmic-bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#080C16" />
-      <stop offset="50%" stop-color="#0F172A" />
-      <stop offset="100%" stop-color="#050811" />
-    </linearGradient>
-    <radialGradient id="nebula" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.25" />
-      <stop offset="60%" stop-color="#3B82F6" stop-opacity="0.1" />
-      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
-    </radialGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="6" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
-  </defs>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  viewBox="0 0 900 540"
+  width="100%"
+  height="540"
+  style="max-width: 900px; background-color: var(--color-bg); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; border-radius: 12px; overflow: hidden; border: 1px solid var(--color-card-border);"
+>
+  <style>
+    
+    :root {
+      --color-bg: #080C16;
+      --color-bg-secondary: #0B132B;
+      --color-card-bg: rgba(15, 23, 42, 0.72);
+      --color-card-border: rgba(148, 163, 184, 0.14);
+      --color-text-primary: #F8FAFC;
+      --color-text-secondary: #94A3B8;
+      --color-text-muted: #64748B;
+      --color-accent: #38BDF8;
+      --color-accent-glow: rgba(56, 189, 248, 0.35);
+      --color-orbit-line: rgba(148, 163, 184, 0.16);
+      --color-constellation-line: rgba(96, 165, 250, 0.22);
+      --color-grid-line: rgba(148, 163, 184, 0.08);
+      --color-star-dust: rgba(255, 255, 255, 0.75);
+      --color-radar-ring: rgba(56, 189, 248, 0.12);
+      --color-badge-bg: rgba(30, 41, 59, 0.7);
+      --color-sun-core: #FFFFFF;
+      --color-node-stroke: rgba(255, 255, 255, 0.4);
+    }
 
-  <!-- Background -->
-  <rect width="900" height="320" rx="16" fill="url(#cosmic-bg)" stroke="#1E293B" stroke-width="1.5" />
-  <circle cx="450" cy="160" r="220" fill="url(#nebula)" />
+    @media (prefers-color-scheme: light) {
+      :root {
+        --color-bg: #FFFFFF;
+        --color-bg-secondary: #F8FAFC;
+        --color-card-bg: rgba(248, 250, 252, 0.95);
+        --color-card-border: rgba(203, 213, 225, 0.95);
+        --color-text-primary: #0F172A;
+        --color-text-secondary: #334155;
+        --color-text-muted: #64748B;
+        --color-accent: #0284C7;
+        --color-accent-glow: rgba(2, 132, 199, 0.25);
+        --color-orbit-line: rgba(100, 116, 139, 0.22);
+        --color-constellation-line: rgba(2, 132, 199, 0.35);
+        --color-grid-line: rgba(226, 232, 240, 0.85);
+        --color-star-dust: rgba(148, 163, 184, 0.55);
+        --color-radar-ring: rgba(2, 132, 199, 0.18);
+        --color-badge-bg: #F1F5F9;
+        --color-sun-core: #F59E0B;
+        --color-node-stroke: #FFFFFF;
+      }
+    }
+  
 
-  <!-- Stars -->
-  <g fill="#FFFFFF" opacity="0.6">
-    <circle cx="120" cy="60" r="1.5" />
-    <circle cx="280" cy="110" r="1" />
-    <circle cx="750" cy="80" r="1.5" />
-    <circle cx="820" cy="220" r="1" />
-    <circle cx="680" cy="250" r="1.2" />
-    <circle cx="210" cy="230" r="1.5" />
-    <circle cx="340" cy="40" r="1" />
-    <circle cx="620" cy="70" r="1.8" />
-  </g>
+    .title-text {
+      font-size: 20px;
+      font-weight: 700;
+      fill: var(--color-text-primary);
+      letter-spacing: -0.02em;
+    }
+    .subtitle-text {
+      font-size: 12px;
+      fill: var(--color-text-secondary);
+      font-weight: 400;
+    }
+    .rank-badge {
+      fill: var(--color-accent);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .bullet-sep {
+      fill: var(--color-text-muted);
+    }
+    .metric-pill-bg {
+      fill: var(--color-badge-bg);
+      stroke: var(--color-card-border);
+      stroke-width: 1;
+    }
+    .metric-label {
+      font-size: 9px;
+      font-weight: 600;
+      fill: var(--color-text-muted);
+      letter-spacing: 0.08em;
+    }
+    .metric-val {
+      font-size: 11px;
+      font-weight: 700;
+      fill: var(--color-text-primary);
+    }
+    .legend-text {
+      font-size: 11px;
+      fill: var(--color-text-secondary);
+      font-weight: 500;
+    }
+    .legend-pct {
+      fill: var(--color-text-muted);
+      font-size: 10px;
+    }
+    .watermark-text {
+      font-size: 10px;
+      fill: var(--color-text-muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      letter-spacing: 0.04em;
+    }
+    .orbit-ring {
+      fill: none;
+      stroke: var(--color-orbit-line);
+      stroke-width: 1;
+    }
+    .constellation-edge {
+      stroke: var(--color-constellation-line);
+      stroke-width: 1;
+      stroke-dasharray: 2, 2;
+    }
+    .repo-label {
+      font-size: 11px;
+      font-weight: 600;
+      fill: var(--color-text-primary);
+    }
+    .repo-sub {
+      font-size: 9px;
+      fill: var(--color-text-muted);
+    }
 
-  <!-- Orbit Rings -->
-  <ellipse cx="450" cy="160" rx="280" ry="85" fill="none" stroke="#6366F1" stroke-width="1" stroke-dasharray="4,6" opacity="0.4" />
-  <ellipse cx="450" cy="160" rx="180" ry="55" fill="none" stroke="#38BDF8" stroke-width="1" stroke-dasharray="6,6" opacity="0.5" />
-  <ellipse cx="450" cy="160" rx="90" ry="28" fill="none" stroke="#A855F7" stroke-width="1.2" opacity="0.6" />
+    /* Keyframe Animations (Native SVG / CSS) */
+    @keyframes comet-flight {
+      0% {
+        transform: translate(-140px, 30px) scale(0.6);
+        opacity: 0;
+      }
+      5% {
+        opacity: 0.95;
+      }
+      15% {
+        transform: translate(960px, 290px) scale(1);
+        opacity: 0;
+      }
+      100% {
+        transform: translate(960px, 290px) scale(1);
+        opacity: 0;
+      }
+    }
 
-  <!-- Central Star / Planet -->
-  <circle cx="450" cy="160" r="24" fill="#6366F1" filter="url(#glow)" />
-  <circle cx="450" cy="160" r="16" fill="#F8FAFC" />
+    @keyframes stellar-pulse {
+      0%, 100% {
+        opacity: 0.22;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.55;
+        transform: scale(1.15);
+      }
+    }
 
-  <!-- Planetary Bodies -->
-  <g filter="url(#glow)">
-    <circle cx="270" cy="160" r="9" fill="#38BDF8" />
-    <circle cx="630" cy="160" r="12" fill="#EC4899" />
-    <circle cx="530" cy="110" r="8" fill="#10B981" />
-    <circle cx="360" cy="205" r="7" fill="#F59E0B" />
-  </g>
+    @keyframes drift-float-a {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-5px) rotate(1.5deg);
+      }
+    }
 
-  <!-- Content text -->
-  <text x="450" y="240" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#F8FAFC" letter-spacing="1">
-    GITHUB PROFILE ORBIT
-  </text>
-  <text x="450" y="266" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#94A3B8">
-    Ejecutar workflow Generate Profile Orbit en GitHub Actions
-  </text>
+    @keyframes drift-float-b {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(5px) rotate(-1.5deg);
+      }
+    }
+
+    @keyframes twinkle-glow {
+      0%, 100% {
+        opacity: 0.25;
+      }
+      50% {
+        opacity: 0.9;
+      }
+    }
+
+    @keyframes ufo-cruise {
+      0% {
+        transform: translate(-90px, 110px) rotate(3deg);
+        opacity: 0;
+      }
+      3% {
+        opacity: 0.95;
+      }
+      25% {
+        transform: translate(210px, 88px) rotate(-3deg);
+      }
+      50% {
+        transform: translate(510px, 120px) rotate(3deg);
+      }
+      75% {
+        transform: translate(810px, 90px) rotate(-2deg);
+      }
+      97% {
+        opacity: 0.95;
+      }
+      100% {
+        transform: translate(1030px, 112px) rotate(3deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes rocket-flight {
+      0% {
+        transform: translate(980px, 490px) rotate(-154deg) scale(0.48);
+        opacity: 0;
+      }
+      3% {
+        opacity: 0.75;
+      }
+      45% {
+        transform: translate(-140px, -50px) rotate(-154deg) scale(0.48);
+        opacity: 0.75;
+      }
+      46% {
+        opacity: 0;
+        transform: translate(-140px, -50px) rotate(-154deg) scale(0.48);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-140px, -50px) rotate(-154deg) scale(0.48);
+      }
+    }
+
+    @keyframes satellite-orbit {
+      0% {
+        transform: translate(-90px, 185px) rotate(14deg) scale(0.55);
+        opacity: 0;
+      }
+      3% {
+        opacity: 0.82;
+      }
+      96% {
+        opacity: 0.82;
+      }
+      100% {
+        transform: translate(1010px, 255px) rotate(5deg) scale(0.55);
+        opacity: 0;
+      }
+    }
+
+    .ufo-scout {
+      opacity: 0;
+      pointer-events: none;
+      animation: ufo-cruise 12s linear infinite;
+    }
+
+    .spaceship-scout {
+      opacity: 0;
+      pointer-events: none;
+      animation: rocket-flight 22s linear infinite;
+    }
+
+    .satellite-probe {
+      opacity: 0;
+      pointer-events: none;
+      animation: satellite-orbit 16s linear infinite;
+    }
+
+    .comet-object {
+      opacity: 0;
+      pointer-events: none;
+      animation: comet-flight 14s cubic-bezier(0.2, 0.7, 0.4, 1) infinite 6s;
+    }
+
+    .pulsar-glow {
+      transform-origin: center;
+      transform-box: fill-box;
+      animation: stellar-pulse 4s ease-in-out infinite;
+    }
+
+    .drift-node-a {
+      transform-origin: center;
+      transform-box: fill-box;
+      animation: drift-float-a 8s ease-in-out infinite;
+    }
+
+    .drift-node-b {
+      transform-origin: center;
+      transform-box: fill-box;
+      animation: drift-float-b 10s ease-in-out infinite;
+    }
+
+    .star-twinkle-1 {
+      animation: twinkle-glow 3.5s ease-in-out infinite;
+    }
+
+    .star-twinkle-2 {
+      animation: twinkle-glow 5s ease-in-out infinite 2s;
+    }
+  </style>
+
+  
+    <defs>
+      <!-- Core Glow Filter -->
+      <filter id="stellar-glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3.5" result="coloredBlur" />
+        <feMerge>
+          <feMergeNode in="coloredBlur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+
+      <!-- Intense Nebula Glow Filter -->
+      <filter id="nebula-glow" x="-100%" y="-100%" width="300%" height="300%">
+        <feGaussianBlur stdDeviation="12" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+
+      <!-- Soft Drop Shadow -->
+      <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.25" flood-color="#000000" />
+      </filter>
+
+      <!-- Cosmic Core Radial Gradient -->
+      <radialGradient id="core-sun" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="var(--color-sun-core)" stop-opacity="1" />
+        <stop offset="35%" stop-color="var(--color-accent)" stop-opacity="0.95" />
+        <stop offset="70%" stop-color="#818CF8" stop-opacity="0.6" />
+        <stop offset="100%" stop-color="var(--color-accent)" stop-opacity="0" />
+      </radialGradient>
+
+      <!-- Background Ambient Glow -->
+      <radialGradient id="bg-nebula" cx="50%" cy="40%" r="60%">
+        <stop offset="0%" stop-color="var(--color-accent)" stop-opacity="0.12" />
+        <stop offset="50%" stop-color="#6366F1" stop-opacity="0.05" />
+        <stop offset="100%" stop-color="transparent" stop-opacity="0" />
+      </radialGradient>
+
+      <!-- Subtle Grid Pattern -->
+      <pattern id="grid-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="var(--color-grid-line)" stroke-width="0.75" />
+      </pattern>
+    </defs>
+  
+
+  <!-- Ambient Space Background Layer -->
+  <rect width="900" height="540" fill="var(--color-bg)" />
+  <rect width="900" height="540" fill="url(#bg-nebula)" />
+  <rect width="900" height="540" fill="url(#grid-pattern)" opacity="0.6" />
+
+  
+      
+    <g class="header-group" transform="translate(32, 28)">
+      <!-- Identity & Subtitle -->
+      <text x="0" y="24" class="title-text">Franco Zariaga // Ecosystem Overview</text>
+      <text x="0" y="44" class="subtitle-text">
+        <tspan class="rank-badge">Software Contributor</tspan>
+        <tspan class="bullet-sep"> • </tspan>
+        <tspan>Primary: Python</tspan>
+        <tspan class="bullet-sep"> • </tspan>
+        <tspan>3 Repositories</tspan>
+      </text>
+
+      <!-- Metric Pills on the right (if enabled) -->
+      
+      <g transform="translate(496, 6)">
+        <!-- Stars Pill -->
+        <rect x="0" y="0" width="80" height="36" rx="8" class="metric-pill-bg" />
+        <text x="40" y="16" text-anchor="middle" class="metric-label">STARS</text>
+        <text x="40" y="30" text-anchor="middle" class="metric-val">★ 1</text>
+
+        <!-- Commits Pill -->
+        <rect x="88" y="0" width="80" height="36" rx="8" class="metric-pill-bg" />
+        <text x="128" y="16" text-anchor="middle" class="metric-label">COMMITS</text>
+        <text x="128" y="30" text-anchor="middle" class="metric-val">⚡ 230</text>
+
+        <!-- Forks Pill -->
+        <rect x="176" y="0" width="76" height="36" rx="8" class="metric-pill-bg" />
+        <text x="214" y="16" text-anchor="middle" class="metric-label">FORKS</text>
+        <text x="214" y="30" text-anchor="middle" class="metric-val">⑂ 0</text>
+
+        <!-- Languages Pill -->
+        <rect x="260" y="0" width="80" height="36" rx="8" class="metric-pill-bg" />
+        <text x="300" y="16" text-anchor="middle" class="metric-label">LANGUAGES</text>
+        <text x="300" y="30" text-anchor="middle" class="metric-val">❖ 6</text>
+      </g>
+      
+    </g>
+  
+      <g class="star-field" opacity="0.8"><circle cx="442.4" cy="269.1" r="1.6" fill="var(--color-star-dust)" opacity="0.32" class="star-twinkle-1" /><circle cx="627.5" cy="167.8" r="1.1" fill="var(--color-star-dust)" opacity="0.40"  /><circle cx="315.3" cy="478.6" r="1.3" fill="var(--color-star-dust)" opacity="0.80"  /><circle cx="307.1" cy="371.8" r="1.4" fill="var(--color-star-dust)" opacity="0.40"  /><circle cx="81.5" cy="105.5" r="1.6" fill="var(--color-star-dust)" opacity="0.81"  /><circle cx="31.1" cy="200.4" r="0.7" fill="var(--color-star-dust)" opacity="0.41"  /><circle cx="108.6" cy="243.8" r="0.7" fill="var(--color-star-dust)" opacity="0.37"  /><circle cx="540.4" cy="449.8" r="1.6" fill="var(--color-star-dust)" opacity="0.67" class="star-twinkle-1" /><circle cx="159.0" cy="104.2" r="1.6" fill="var(--color-star-dust)" opacity="0.63"  /><circle cx="161.3" cy="100.9" r="0.7" fill="var(--color-star-dust)" opacity="0.54"  /><circle cx="675.6" cy="97.3" r="1.4" fill="var(--color-star-dust)" opacity="0.36"  /><circle cx="94.4" cy="137.0" r="1.4" fill="var(--color-star-dust)" opacity="0.75" class="star-twinkle-2" /><circle cx="464.7" cy="386.5" r="1.3" fill="var(--color-star-dust)" opacity="0.32"  /><circle cx="83.3" cy="433.0" r="1.4" fill="var(--color-star-dust)" opacity="0.41"  /><circle cx="239.3" cy="192.2" r="1.5" fill="var(--color-star-dust)" opacity="0.52" class="star-twinkle-1" /><circle cx="801.0" cy="272.9" r="1.3" fill="var(--color-star-dust)" opacity="0.67"  /><circle cx="839.6" cy="244.9" r="0.8" fill="var(--color-star-dust)" opacity="0.68"  /><circle cx="55.8" cy="99.4" r="1.3" fill="var(--color-star-dust)" opacity="0.48"  /><circle cx="433.4" cy="228.5" r="0.8" fill="var(--color-star-dust)" opacity="0.23"  /><circle cx="875.2" cy="171.3" r="0.9" fill="var(--color-star-dust)" opacity="0.33"  /><circle cx="154.7" cy="334.0" r="1.5" fill="var(--color-star-dust)" opacity="0.82"  /><circle cx="509.6" cy="452.3" r="1.2" fill="var(--color-star-dust)" opacity="0.75" class="star-twinkle-1" /><circle cx="120.9" cy="202.6" r="0.6" fill="var(--color-star-dust)" opacity="0.49" class="star-twinkle-2" /><circle cx="773.4" cy="289.9" r="1.5" fill="var(--color-star-dust)" opacity="0.85"  /><circle cx="449.6" cy="59.8" r="1.2" fill="var(--color-star-dust)" opacity="0.20"  /><circle cx="166.3" cy="283.0" r="1.8" fill="var(--color-star-dust)" opacity="0.84"  /><circle cx="393.0" cy="197.9" r="1.2" fill="var(--color-star-dust)" opacity="0.68"  /><circle cx="452.2" cy="100.9" r="0.6" fill="var(--color-star-dust)" opacity="0.68"  /><circle cx="751.8" cy="250.3" r="0.9" fill="var(--color-star-dust)" opacity="0.59" class="star-twinkle-1" /><circle cx="177.4" cy="411.8" r="1.0" fill="var(--color-star-dust)" opacity="0.67"  /><circle cx="107.6" cy="174.3" r="1.5" fill="var(--color-star-dust)" opacity="0.57"  /><circle cx="67.5" cy="280.8" r="0.7" fill="var(--color-star-dust)" opacity="0.22"  /><circle cx="354.4" cy="65.0" r="1.1" fill="var(--color-star-dust)" opacity="0.25"  /><circle cx="522.7" cy="118.6" r="1.1" fill="var(--color-star-dust)" opacity="0.49" class="star-twinkle-2" /><circle cx="28.3" cy="238.5" r="1.4" fill="var(--color-star-dust)" opacity="0.36"  /><circle cx="672.7" cy="100.0" r="1.0" fill="var(--color-star-dust)" opacity="0.57" class="star-twinkle-1" /><circle cx="376.1" cy="145.3" r="0.6" fill="var(--color-star-dust)" opacity="0.50"  /><circle cx="709.1" cy="292.3" r="1.0" fill="var(--color-star-dust)" opacity="0.27"  /><circle cx="83.1" cy="433.9" r="1.3" fill="var(--color-star-dust)" opacity="0.71"  /><circle cx="617.9" cy="93.4" r="0.7" fill="var(--color-star-dust)" opacity="0.27"  /><circle cx="159.0" cy="484.2" r="1.6" fill="var(--color-star-dust)" opacity="0.56"  /><circle cx="469.6" cy="340.9" r="1.2" fill="var(--color-star-dust)" opacity="0.40"  /><circle cx="63.0" cy="50.7" r="0.8" fill="var(--color-star-dust)" opacity="0.85" class="star-twinkle-1" /><circle cx="548.7" cy="410.0" r="1.2" fill="var(--color-star-dust)" opacity="0.58"  /><circle cx="547.6" cy="216.4" r="0.6" fill="var(--color-star-dust)" opacity="0.81" class="star-twinkle-2" /><circle cx="461.7" cy="382.0" r="0.7" fill="var(--color-star-dust)" opacity="0.44"  /><circle cx="320.9" cy="295.8" r="1.2" fill="var(--color-star-dust)" opacity="0.54"  /><circle cx="664.2" cy="123.0" r="0.8" fill="var(--color-star-dust)" opacity="0.34"  /><circle cx="287.8" cy="288.5" r="1.0" fill="var(--color-star-dust)" opacity="0.25"  /><circle cx="386.3" cy="72.1" r="0.9" fill="var(--color-star-dust)" opacity="0.44" class="star-twinkle-1" /><circle cx="750.3" cy="242.7" r="1.0" fill="var(--color-star-dust)" opacity="0.81"  /><circle cx="556.9" cy="379.8" r="1.1" fill="var(--color-star-dust)" opacity="0.50"  /><circle cx="165.6" cy="368.6" r="1.1" fill="var(--color-star-dust)" opacity="0.46"  /><circle cx="546.7" cy="316.9" r="1.1" fill="var(--color-star-dust)" opacity="0.33"  /><circle cx="624.1" cy="461.8" r="1.0" fill="var(--color-star-dust)" opacity="0.69"  /><circle cx="770.3" cy="352.2" r="1.2" fill="var(--color-star-dust)" opacity="0.31" class="star-twinkle-2" /><circle cx="265.4" cy="76.6" r="0.6" fill="var(--color-star-dust)" opacity="0.40" class="star-twinkle-1" /><circle cx="826.8" cy="181.6" r="1.5" fill="var(--color-star-dust)" opacity="0.63"  /><circle cx="153.3" cy="410.0" r="1.5" fill="var(--color-star-dust)" opacity="0.55"  /><circle cx="58.7" cy="386.0" r="0.7" fill="var(--color-star-dust)" opacity="0.59"  /><circle cx="669.3" cy="214.2" r="1.1" fill="var(--color-star-dust)" opacity="0.38"  /><circle cx="530.5" cy="40.3" r="1.0" fill="var(--color-star-dust)" opacity="0.53"  /><circle cx="325.6" cy="141.1" r="1.0" fill="var(--color-star-dust)" opacity="0.82"  /><circle cx="385.1" cy="351.3" r="0.9" fill="var(--color-star-dust)" opacity="0.54" class="star-twinkle-1" /><circle cx="435.7" cy="154.7" r="1.5" fill="var(--color-star-dust)" opacity="0.79"  /><circle cx="799.8" cy="406.5" r="1.3" fill="var(--color-star-dust)" opacity="0.53"  /><circle cx="164.6" cy="95.5" r="1.5" fill="var(--color-star-dust)" opacity="0.71" class="star-twinkle-2" /><circle cx="740.3" cy="392.4" r="0.8" fill="var(--color-star-dust)" opacity="0.33"  /><circle cx="877.7" cy="33.2" r="0.9" fill="var(--color-star-dust)" opacity="0.84"  /><circle cx="154.0" cy="283.0" r="1.2" fill="var(--color-star-dust)" opacity="0.52"  /><circle cx="868.0" cy="410.5" r="0.9" fill="var(--color-star-dust)" opacity="0.26" class="star-twinkle-1" /><circle cx="421.8" cy="238.0" r="0.9" fill="var(--color-star-dust)" opacity="0.58"  /><circle cx="242.4" cy="56.4" r="1.4" fill="var(--color-star-dust)" opacity="0.55"  /><circle cx="348.5" cy="311.5" r="1.5" fill="var(--color-star-dust)" opacity="0.49"  /><circle cx="486.7" cy="229.8" r="1.0" fill="var(--color-star-dust)" opacity="0.32"  /><circle cx="592.4" cy="430.6" r="0.9" fill="var(--color-star-dust)" opacity="0.34"  /><circle cx="429.2" cy="292.9" r="1.0" fill="var(--color-star-dust)" opacity="0.82"  /><circle cx="193.1" cy="163.3" r="1.3" fill="var(--color-star-dust)" opacity="0.59" class="star-twinkle-1" /><circle cx="643.4" cy="374.2" r="1.3" fill="var(--color-star-dust)" opacity="0.66"  /><circle cx="678.7" cy="197.4" r="0.7" fill="var(--color-star-dust)" opacity="0.49"  /><circle cx="808.9" cy="462.8" r="1.6" fill="var(--color-star-dust)" opacity="0.81"  /><circle cx="551.1" cy="248.7" r="1.1" fill="var(--color-star-dust)" opacity="0.44"  /><circle cx="351.6" cy="251.0" r="1.5" fill="var(--color-star-dust)" opacity="0.67"  /><circle cx="790.4" cy="119.5" r="1.4" fill="var(--color-star-dust)" opacity="0.43"  /><circle cx="642.2" cy="208.2" r="0.6" fill="var(--color-star-dust)" opacity="0.62" class="star-twinkle-1" /><circle cx="738.1" cy="67.2" r="1.5" fill="var(--color-star-dust)" opacity="0.56"  /><circle cx="153.8" cy="44.2" r="1.0" fill="var(--color-star-dust)" opacity="0.71"  /><circle cx="698.6" cy="482.4" r="1.2" fill="var(--color-star-dust)" opacity="0.82"  /><circle cx="638.4" cy="322.7" r="1.2" fill="var(--color-star-dust)" opacity="0.71" class="star-twinkle-2" /><circle cx="80.3" cy="397.6" r="0.8" fill="var(--color-star-dust)" opacity="0.42"  />
+        <g transform="translate(250.7, 44.2)" opacity="0.4" class="star-twinkle-1">
+          <line x1="-4" y1="0" x2="4" y2="0" stroke="var(--color-star-dust)" stroke-width="0.75" />
+          <line x1="0" y1="-4" x2="0" y2="4" stroke="var(--color-star-dust)" stroke-width="0.75" />
+        </g>
+      
+        <g transform="translate(272.3, 462.0)" opacity="0.4" class="star-twinkle-2">
+          <line x1="-4" y1="0" x2="4" y2="0" stroke="var(--color-star-dust)" stroke-width="0.75" />
+          <line x1="0" y1="-4" x2="0" y2="4" stroke="var(--color-star-dust)" stroke-width="0.75" />
+        </g>
+      
+        <g transform="translate(530.7, 118.5)" opacity="0.4" class="star-twinkle-1">
+          <line x1="-4" y1="0" x2="4" y2="0" stroke="var(--color-star-dust)" stroke-width="0.75" />
+          <line x1="0" y1="-4" x2="0" y2="4" stroke="var(--color-star-dust)" stroke-width="0.75" />
+        </g>
+      
+        <g transform="translate(584.2, 91.5)" opacity="0.4" class="star-twinkle-2">
+          <line x1="-4" y1="0" x2="4" y2="0" stroke="var(--color-star-dust)" stroke-width="0.75" />
+          <line x1="0" y1="-4" x2="0" y2="4" stroke="var(--color-star-dust)" stroke-width="0.75" />
+        </g>
+      
+        <g transform="translate(225.4, 151.4)" opacity="0.4" class="star-twinkle-1">
+          <line x1="-4" y1="0" x2="4" y2="0" stroke="var(--color-star-dust)" stroke-width="0.75" />
+          <line x1="0" y1="-4" x2="0" y2="4" stroke="var(--color-star-dust)" stroke-width="0.75" />
+        </g>
+      
+        <g transform="translate(701.7, 280.7)" opacity="0.4" class="star-twinkle-2">
+          <line x1="-4" y1="0" x2="4" y2="0" stroke="var(--color-star-dust)" stroke-width="0.75" />
+          <line x1="0" y1="-4" x2="0" y2="4" stroke="var(--color-star-dust)" stroke-width="0.75" />
+        </g>
+      
+        <g transform="translate(339.4, 212.2)" opacity="0.4" class="star-twinkle-1">
+          <line x1="-4" y1="0" x2="4" y2="0" stroke="var(--color-star-dust)" stroke-width="0.75" />
+          <line x1="0" y1="-4" x2="0" y2="4" stroke="var(--color-star-dust)" stroke-width="0.75" />
+        </g>
+      
+        <g transform="translate(501.5, 193.1)" opacity="0.4" class="star-twinkle-2">
+          <line x1="-4" y1="0" x2="4" y2="0" stroke="var(--color-star-dust)" stroke-width="0.75" />
+          <line x1="0" y1="-4" x2="0" y2="4" stroke="var(--color-star-dust)" stroke-width="0.75" />
+        </g>
+      </g>
+      
+      <g class="comet-object" opacity="0.85">
+        <defs>
+          <linearGradient id="comet-tail" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="var(--color-accent)" stop-opacity="0" />
+            <stop offset="70%" stop-color="var(--color-accent)" stop-opacity="0.5" />
+            <stop offset="100%" stop-color="#FFFFFF" stop-opacity="1" />
+          </linearGradient>
+        </defs>
+        <line x1="0" y1="0" x2="60" y2="18" stroke="url(#comet-tail)" stroke-width="2" stroke-linecap="round" />
+        <circle cx="60" cy="18" r="3" fill="#FFFFFF" filter="url(#stellar-glow)" />
+      </g>
+    
+      
+      <g class="ufo-scout" opacity="0">
+        <ellipse cx="25" cy="12" rx="20" ry="5" fill="var(--color-accent)" opacity="0.35" filter="url(#stellar-glow)" />
+        <ellipse cx="25" cy="12" rx="18" ry="4" fill="#0F172A" stroke="var(--color-accent)" stroke-width="0.75" />
+        <path d="M 18 10 Q 25 3 32 10 Z" fill="url(#core-sun)" opacity="0.95" />
+        <circle cx="17" cy="12.5" r="1.1" fill="#38BDF8" />
+        <circle cx="25" cy="13" r="1.3" fill="#FBBF24" />
+        <circle cx="33" cy="12.5" r="1.1" fill="#34D399" />
+      </g>
+    
+      
+      <g class="spaceship-scout" opacity="0">
+        <polygon points="2,8 -24,5 -24,11" fill="#38BDF8" opacity="0.75" filter="url(#stellar-glow)" />
+        <polygon points="2,8 -14,6 -14,10" fill="#FFFFFF" opacity="0.9" />
+        <polygon points="2,14 -24,11 -24,17" fill="#38BDF8" opacity="0.75" filter="url(#stellar-glow)" />
+        <polygon points="2,14 -14,12 -14,16" fill="#FFFFFF" opacity="0.9" />
+        <polygon points="16,3 2,-4 -2,6" fill="#1E293B" stroke="#475569" stroke-width="0.6" />
+        <polygon points="16,19 2,26 -2,16" fill="#1E293B" stroke="#475569" stroke-width="0.6" />
+        <path d="M 38 11 L 18 5 L 0 6 L -2 11 L 0 16 L 18 17 Z" fill="#E2E8F0" stroke="#334155" stroke-width="0.8" />
+        <line x1="14" y1="6" x2="14" y2="16" stroke="#94A3B8" stroke-width="0.5" />
+        <line x1="24" y1="8" x2="24" y2="14" stroke="#94A3B8" stroke-width="0.5" />
+        <polygon points="27,11 20,8.5 15,11 20,13.5" fill="#0284C7" stroke="#38BDF8" stroke-width="0.6" />
+        <polygon points="25,11 21,9.5 18,11 21,12.5" fill="#BAE6FD" opacity="0.6" />
+        <circle cx="2" cy="-4" r="1.2" fill="#EF4444" />
+        <circle cx="2" cy="26" r="1.2" fill="#22C55E" />
+        <circle cx="38" cy="11" r="1.2" fill="#FFFFFF" />
+      </g>
+    
+      
+      <g class="satellite-probe" opacity="0">
+        <path d="M -5 -7 Q 0 -15 5 -7" fill="none" stroke="#E2E8F0" stroke-width="1.4" />
+        <line x1="0" y1="-11" x2="0" y2="-18" stroke="#94A3B8" stroke-width="0.8" />
+        <circle cx="0" cy="-18" r="1.4" fill="#EF4444" />
+        <line x1="-12" y1="0" x2="-8" y2="0" stroke="#94A3B8" stroke-width="1.2" />
+        <rect x="-34" y="-7" width="22" height="14" rx="1.5" fill="#0F172A" stroke="#38BDF8" stroke-width="0.7" />
+        <line x1="-27" y1="-7" x2="-27" y2="7" stroke="#38BDF8" stroke-width="0.4" stroke-opacity="0.8" />
+        <line x1="-20" y1="-7" x2="-20" y2="7" stroke="#38BDF8" stroke-width="0.4" stroke-opacity="0.8" />
+        <line x1="-34" y1="0" x2="-12" y2="0" stroke="#38BDF8" stroke-width="0.4" stroke-opacity="0.8" />
+        <line x1="8" y1="0" x2="12" y2="0" stroke="#94A3B8" stroke-width="1.2" />
+        <rect x="12" y="-7" width="22" height="14" rx="1.5" fill="#0F172A" stroke="#38BDF8" stroke-width="0.7" />
+        <line x1="19" y1="-7" x2="19" y2="7" stroke="#38BDF8" stroke-width="0.4" stroke-opacity="0.8" />
+        <line x1="26" y1="-7" x2="26" y2="7" stroke="#38BDF8" stroke-width="0.4" stroke-opacity="0.8" />
+        <line x1="12" y1="0" x2="34" y2="0" stroke="#38BDF8" stroke-width="0.4" stroke-opacity="0.8" />
+        <polygon points="-8,-6 8,-6 13,0 8,6 -8,6 -13,0" fill="#D97706" stroke="#F59E0B" stroke-width="0.8" />
+        <polygon points="-6,-4 6,-4 10,0 6,4 -6,4 -10,0" fill="#F59E0B" opacity="0.9" />
+        <circle cx="0" cy="6" r="2.2" fill="#0F172A" stroke="#94A3B8" stroke-width="0.6" />
+        <circle cx="0" cy="6" r="1.1" fill="#38BDF8" />
+      </g>
+    
+      <g class="orbits">
+          <circle
+            cx="450"
+            cy="280"
+            r="85"
+            class="orbit-ring"
+            
+            opacity="0.50"
+          />
+        </g>
+      <g class="constellations" opacity="0.6"></g>
+      
+      <g class="central-core" transform="translate(450, 280)">
+        <!-- Outer Gravitational Aura (Pulsating) -->
+        <circle cx="0" cy="0" r="46" fill="url(#core-sun)" opacity="0.25" filter="url(#stellar-glow)" class="pulsar-glow" />
+        <circle cx="0" cy="0" r="28" fill="url(#core-sun)" opacity="0.5" />
+        <!-- Core Body -->
+        
+        <defs>
+          <clipPath id="core-avatar-clip-450">
+            <circle cx="0" cy="0" r="18" />
+          </clipPath>
+        </defs>
+        <image
+          href="data:image/png;base64,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"
+          xlink:href="data:image/png;base64,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"
+          x="-18"
+          y="-18"
+          width="36"
+          height="36"
+          clip-path="url(#core-avatar-clip-450)"
+          preserveAspectRatio="xMidYMid slice"
+        />
+        <circle cx="0" cy="0" r="18" fill="none" stroke="var(--color-sun-core)" stroke-width="1.5" opacity="0.7" />
+      
+      </g>
+    
+      <g class="planet-nodes">
+        <g class="">
+          <g transform="translate(528.29, 313.1)">
+            <circle cx="0" cy="0" r="15.4" fill="none" stroke="#3572A5" stroke-width="0.8" opacity="0.45" filter="url(#stellar-glow)" class="pulsar-glow" />
+            
+            
+            <circle cx="0" cy="0" r="11.4" fill="#3572A5" opacity="0.25" filter="url(#stellar-glow)" />
+            <circle cx="0" cy="0" r="9.4" fill="#3572A5" />
+            <circle cx="0" cy="0" r="3.29" fill="#FFFFFF" opacity="0.6" />
+          </g>
+
+          <!-- Typographic Label -->
+          <g transform="translate(543.4, 324.5)">
+            <text
+              x="0"
+              y="0"
+              text-anchor="start"
+              class="repo-label"
+            >
+              PedemonteDigital…
+            </text>
+            <text
+              x="0"
+              y="11"
+              text-anchor="start"
+              class="repo-sub"
+            >
+              ★ 1 • Python
+            </text>
+          </g>
+        </g>
+      
+        <g class="">
+          <g transform="translate(371.71, 246.9)">
+            <circle cx="0" cy="0" r="14.2" fill="none" stroke="#64748B" stroke-width="0.8" opacity="0.45" filter="url(#stellar-glow)" class="pulsar-glow" />
+            
+            
+            <circle cx="0" cy="0" r="10.2" fill="#64748B" opacity="0.25" filter="url(#stellar-glow)" />
+            <circle cx="0" cy="0" r="8.2" fill="#64748B" />
+            <circle cx="0" cy="0" r="2.8699999999999997" fill="#FFFFFF" opacity="0.6" />
+          </g>
+
+          <!-- Typographic Label -->
+          <g transform="translate(357.7, 240.0)">
+            <text
+              x="0"
+              y="0"
+              text-anchor="end"
+              class="repo-label"
+            >
+              Frasquito3
+            </text>
+            <text
+              x="0"
+              y="11"
+              text-anchor="end"
+              class="repo-sub"
+            >
+              Markdown
+            </text>
+          </g>
+        </g>
+      
+        <g class="drift-node-a">
+          <g transform="translate(119.4, 154)">
+            
+            <circle cx="0" cy="0" r="8.67" fill="none" stroke="var(--color-text-muted)" stroke-width="0.6" stroke-dasharray="2, 2" opacity="0.4" />
+            
+            <circle cx="0" cy="0" r="7.67" fill="#f34b7d" opacity="0.25" filter="url(#stellar-glow)" />
+            <circle cx="0" cy="0" r="5.67" fill="#f34b7d" />
+            <circle cx="0" cy="0" r="1.9845" fill="#FFFFFF" opacity="0.6" />
+          </g>
+
+          <!-- Typographic Label -->
+          <g transform="translate(119.4, 173.7)">
+            <text
+              x="0"
+              y="0"
+              text-anchor="middle"
+              class="repo-label"
+            >
+              TPA-TPIntegrador
+            </text>
+            <text
+              x="0"
+              y="11"
+              text-anchor="middle"
+              class="repo-sub"
+            >
+              C++
+            </text>
+          </g>
+        </g>
+      </g>
+      
+    <g class="footer-group">
+      <!-- Spectrum Bar -->
+      <rect x="32.0" y="502" width="718.1" height="6" rx="2" fill="#3572A5" /><rect x="751.6" y="502" width="52.7" height="6" rx="2" fill="#f1e05a" /><rect x="805.8" y="502" width="38.5" height="6" rx="2" fill="#f34b7d" /><rect x="845.7" y="502" width="14.2" height="6" rx="2" fill="#663399" /><rect x="861.5" y="502" width="11.7" height="6" rx="2" fill="#e34c26" />
+
+      <!-- Legend Items -->
+      
+        <g transform="translate(32.0, 520)">
+          <circle cx="4" cy="4" r="4" fill="#3572A5" />
+          <text x="14" y="8" class="legend-text">Python <tspan class="legend-pct">85.9%</tspan></text>
+        </g>
+      
+        <g transform="translate(125.0, 520)">
+          <circle cx="4" cy="4" r="4" fill="#f1e05a" />
+          <text x="14" y="8" class="legend-text">JavaScript <tspan class="legend-pct">6.3%</tspan></text>
+        </g>
+      
+        <g transform="translate(250.0, 520)">
+          <circle cx="4" cy="4" r="4" fill="#f34b7d" />
+          <text x="14" y="8" class="legend-text">C++ <tspan class="legend-pct">4.6%</tspan></text>
+        </g>
+      
+        <g transform="translate(340.0, 520)">
+          <circle cx="4" cy="4" r="4" fill="#663399" />
+          <text x="14" y="8" class="legend-text">CSS <tspan class="legend-pct">1.7%</tspan></text>
+        </g>
+      
+        <g transform="translate(430.0, 520)">
+          <circle cx="4" cy="4" r="4" fill="#e34c26" />
+          <text x="14" y="8" class="legend-text">HTML <tspan class="legend-pct">1.4%</tspan></text>
+        </g>
+      
+
+      <!-- Octo-Orbit Brand / Telemetry Timestamp on the right -->
+      <g transform="translate(868, 524)">
+        <text x="0" y="0" text-anchor="end" class="watermark-text">
+          ✦ github-profile-orbit • 2026-09-23
+        </text>
+      </g>
+    </g>
+  
+    
 </svg>
