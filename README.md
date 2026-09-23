@@ -77,7 +77,7 @@
   <a href="https://github.com/Frasquito3">
     <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
   </a>
-  <a href="mailto:francozariaga@gmail.com">
+  <a href="mailto:zariagafranco@gmail.com">
     <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
   </a>
 </div>
