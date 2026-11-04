@@ -913,13 +913,13 @@
       
     <g class="footer-group">
       <!-- Spectrum Bar -->
-      <rect x="32.0" y="502" width="422.2" height="6" rx="2" fill="#3572A5" /><rect x="455.7" y="502" width="194.0" height="6" rx="2" fill="#3178C6" /><rect x="651.1" y="502" width="136.3" height="6" rx="2" fill="#178600" /><rect x="788.9" y="502" width="36.8" height="6" rx="2" fill="#F1E05A" /><rect x="827.2" y="502" width="25.9" height="6" rx="2" fill="#E34C26" />
+      <rect x="32.0" y="502" width="423.9" height="6" rx="2" fill="#3572A5" /><rect x="457.4" y="502" width="194.0" height="6" rx="2" fill="#3178C6" /><rect x="652.8" y="502" width="136.3" height="6" rx="2" fill="#178600" /><rect x="790.6" y="502" width="36.8" height="6" rx="2" fill="#F1E05A" /><rect x="828.9" y="502" width="25.9" height="6" rx="2" fill="#E34C26" />
 
       <!-- Legend Items -->
       
         <g transform="translate(32.0, 520)">
           <circle cx="4" cy="4" r="4" fill="#3572A5" />
-          <text x="14" y="8" class="legend-text">Python <tspan class="legend-pct">50.5%</tspan></text>
+          <text x="14" y="8" class="legend-text">Python <tspan class="legend-pct">50.7%</tspan></text>
         </g>
       
         <g transform="translate(125.0, 520)">
@@ -946,7 +946,7 @@
       <!-- Octo-Orbit Brand / Telemetry Timestamp on the right -->
       <g transform="translate(868, 524)">
         <text x="0" y="0" text-anchor="end" class="watermark-text">
-          ✦ github-profile-orbit • 2026-11-03
+          ✦ github-profile-orbit • 2026-11-04
         </text>
       </g>
     </g>
